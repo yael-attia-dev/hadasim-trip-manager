@@ -14,6 +14,7 @@ public class Student {
     /* student unique id number */
     private String id;
 
+
     @NotBlank(message = "first name is mandatory")
     @Size (min = 2, message = "name is too short")
     /* student first name */
@@ -27,6 +28,16 @@ public class Student {
     @Pattern(regexp = "^[A-Z][0-9]$")
     /* student class name like a1 or b2 */
     private String classroom;
+
+    public Student(String id, String firstName, String lastName, String classroom) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.classroom = classroom;
+    }
+
+    public Student() {
+    }
 
     public String getClassroom() {
         return classroom;

@@ -73,4 +73,9 @@ public class StudentService
         // we search for the student. findById returns an "Optional" container.
         return studentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Student with ID " + id + " not found."));
     }
+
+    /* get students by class name */
+    public List<Student> getStudentsByClass(String classroom) {
+        return studentRepository.findByClassroom(classroom);
+    }
 }

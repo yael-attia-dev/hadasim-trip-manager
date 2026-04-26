@@ -24,6 +24,25 @@ public class Teacher {
     @Pattern(regexp = "^[A-Z][0-9]$")
     private String classroom;
 
+    @NotBlank(message = "password is mandatory")
+    @Size(min = 4, message = "password must be at least 4 characters")
+    /* teacher password for login */
+    private String password;
+
+
+
+    public Teacher() {
+    }
+
+    /* constructor to create teacher with data */
+    public Teacher(String id, String firstName, String lastName, String classroom, String password) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.classroom = classroom;
+        this.password = password;
+    }
+
     public String getId() {
         return id;
     }
@@ -54,5 +73,13 @@ public class Teacher {
 
     public void setClassroom(String classroom) {
         this.classroom = classroom;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

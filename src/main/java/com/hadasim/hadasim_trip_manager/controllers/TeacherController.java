@@ -1,5 +1,10 @@
 package com.hadasim.hadasim_trip_manager.controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import java.util.Map;
 import com.hadasim.hadasim_trip_manager.entities.Teacher;
 import com.hadasim.hadasim_trip_manager.services.TeacherService;
 import jakarta.validation.Valid;
@@ -57,5 +62,22 @@ public class TeacherController {
     @DeleteMapping("/{id}")
     public void deleteTeacher(@PathVariable String id) {
         teacherService.deleteTeacher(id);
+    }
+
+    /* check teacher login credentials */
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody Map<String, String> loginData) {
+        String id = loginData.get("id");
+        String password = loginData.get("password");
+
+        /* check if credentials are correct using the service */
+        boolean isValid = teacherService.login(id, password);
+
+        if (isValid) {
+            return ResponseEntity.ok("login success");
+        } else {
+            /* return error if password or id is wrong */
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid id or password");
+        }
     }
 }

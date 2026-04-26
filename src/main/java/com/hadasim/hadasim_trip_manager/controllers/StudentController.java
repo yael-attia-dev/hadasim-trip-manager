@@ -58,4 +58,10 @@ public class StudentController {
     public void deleteStudent(@PathVariable String id) {
         studentService.deleteStudent(id);
     }
+
+    /* get list of students in a specific class */
+    @GetMapping("/class/{className}")
+    public List<Student> getStudentsByClass(@PathVariable String className) {
+        return studentService.getStudentsByClass(className);
+    }
 }

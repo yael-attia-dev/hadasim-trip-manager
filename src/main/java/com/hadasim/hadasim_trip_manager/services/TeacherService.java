@@ -74,4 +74,12 @@ public class TeacherService {
         // we search for the teacher. findById returns an "Optional" container.
         return teacherRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Teacher with ID " + id + " not found."));
     }
+
+    /* check if teacher exists and password matches */
+    public boolean login(String id, String password) {
+        /* find the teacher by id */
+        return teacherRepository.findById(id)
+                .map(teacher -> teacher.getPassword().equals(password))
+                .orElse(false); /* return false if teacher not found or password wrong */
+    }
 }
