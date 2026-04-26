@@ -3,7 +3,6 @@ package com.hadasim.hadasim_trip_manager.services;
 import com.hadasim.hadasim_trip_manager.entities.Student;
 import com.hadasim.hadasim_trip_manager.entities.StudentRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +10,13 @@ import java.util.List;
 @Service
 public class StudentService
 {
-@Autowired
-private StudentRepository studentRepository;
 
+    private final StudentRepository studentRepository;
+
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+
+    }
     /**
      * this method adds a new student.
      * it checks if the student ID already exists to avoid overwriting data.
