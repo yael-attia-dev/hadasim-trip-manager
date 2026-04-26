@@ -2,6 +2,7 @@ package com.hadasim.hadasim_trip_manager.controllers;
 
 import com.hadasim.hadasim_trip_manager.entities.Teacher;
 import com.hadasim.hadasim_trip_manager.services.TeacherService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class TeacherController {
      * Add a new teacher
      */
     @PostMapping
-    public Teacher addTeacher(@RequestBody Teacher teacher) {
+    public Teacher addTeacher( @Valid @RequestBody Teacher teacher) {
         return teacherService.addTeacher(teacher);
     }
 
@@ -46,7 +47,7 @@ public class TeacherController {
      * Update an existing teacher
      */
     @PutMapping
-    public Teacher updateTeacher(@RequestBody Teacher teacher) {
+    public Teacher updateTeacher( @Valid @RequestBody Teacher teacher) {
         return teacherService.updateTeacher(teacher);
     }
 

@@ -2,6 +2,7 @@ package com.hadasim.hadasim_trip_manager.controllers;
 
 import com.hadasim.hadasim_trip_manager.entities.Student;
 import com.hadasim.hadasim_trip_manager.services.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class StudentController {
      * Add a new student. @RequestBody converts JSON to Student object
      */
     @PostMapping
-    public Student addStudent(@RequestBody Student student) {
+    public Student addStudent( @Valid @RequestBody Student student) {
         return studentService.addStudent(student);
     }
 
@@ -46,7 +47,7 @@ public class StudentController {
      * Update an existing student
      */
     @PutMapping
-    public Student updateStudent(@RequestBody Student student) {
+    public Student updateStudent( @Valid @RequestBody Student student) {
         return studentService.updateStudent(student);
     }
 

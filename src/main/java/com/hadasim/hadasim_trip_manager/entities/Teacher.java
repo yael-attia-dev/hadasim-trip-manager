@@ -2,13 +2,26 @@ package com.hadasim.hadasim_trip_manager.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Teacher {
+
     @Id
+    @NotBlank(message = "id is mandatory")
     private String id;
+
+    @NotBlank(message = "first name is mandatory")
+    @Size(min = 2, message = "name is too short")
     private String firstName;
+
+    @NotBlank(message = "last name is mandatory")
     private String lastName;
+
+    @NotBlank(message = "Classroom is mandatory")
+    @Pattern(regexp = "^[A-Z][0-9]$")
     private String classroom;
 
     public String getId() {
