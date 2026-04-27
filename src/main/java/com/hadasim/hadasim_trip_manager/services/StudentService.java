@@ -1,7 +1,7 @@
 package com.hadasim.hadasim_trip_manager.services;
 
 import com.hadasim.hadasim_trip_manager.entities.Student;
-import com.hadasim.hadasim_trip_manager.entities.StudentRepository;
+import com.hadasim.hadasim_trip_manager.repositories.StudentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
