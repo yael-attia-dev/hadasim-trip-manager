@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/api/students")
+@CrossOrigin(origins = "http://localhost:5173") // תוודאי שזה הפורט שבו הריאקט רץ אצלך
 public class StudentController {
 
     private  final StudentService studentService;

@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/teachers")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:5173") // תוודאי שזה הפורט שבו הריאקט רץ אצלך
 public class TeacherController {
 
     private final TeacherService teacherService;

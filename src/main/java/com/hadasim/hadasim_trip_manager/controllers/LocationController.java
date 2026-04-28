@@ -4,16 +4,14 @@ import com.hadasim.hadasim_trip_manager.entities.StudentLocation;
 import com.hadasim.hadasim_trip_manager.locations.StudentLocationJson;
 import com.hadasim.hadasim_trip_manager.repositories.LocationRepository;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
 
 @RestController
 @RequestMapping("/api/locations")
+@CrossOrigin(origins = "http://localhost:5173") // תוודאי שזה הפורט שבו הריאקט רץ אצלך
 public class LocationController {
 
     private final LocationRepository locationRepository;
