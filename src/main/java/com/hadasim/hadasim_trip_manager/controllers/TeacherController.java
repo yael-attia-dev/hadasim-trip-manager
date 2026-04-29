@@ -64,19 +64,18 @@ public class TeacherController {
         teacherService.deleteTeacher(id);
     }
 
-    /* check teacher login credentials */
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Map<String, String> loginData) {
+    public ResponseEntity<?> login(@RequestBody Map<String, String> loginData) {
         String id = loginData.get("id");
         String password = loginData.get("password");
 
-        /* check if credentials are correct using the service */
-        boolean isValid = teacherService.login(id, password);
+        // במקום רק בוליאני (isValid), נבקש מהסרוויס את אובייקט המורה
+        Teacher teacher = teacherService.getTeacherIfValid(id, password);
 
-        if (isValid) {
-            return ResponseEntity.ok("login success");
+        if (teacher != null) {
+            // מחזירים את כל האובייקט של המורה (כולל השם!)
+            return ResponseEntity.ok(teacher);
         } else {
-            /* return error if password or id is wrong */
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid id or password");
         }
     }

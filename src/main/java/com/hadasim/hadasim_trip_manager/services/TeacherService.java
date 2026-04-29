@@ -98,4 +98,12 @@ public class TeacherService {
         /*  return all students in that classroom from the student repository */
         return studentRepository.findByClassroom(classroomName);
     }
+
+    public Teacher getTeacherIfValid(String id, String password) {
+        // 1. מחפשים את המורה ב-DB לפי ה-ID
+        // נשתמש ב-Optional כי יכול להיות שהמורה לא קיימת
+        return teacherRepository.findById(id)
+                .filter(teacher -> teacher.getPassword().equals(password)) // 2. בודקים אם הסיסמה תואמת
+                .orElse(null); // 3. אם לא נמצאה מורה או שהסיסמה שגויה - מחזירים null
+    }
 }
