@@ -21,7 +21,7 @@ public class Teacher {
     private String lastName;
 
     @NotBlank(message = "Classroom is mandatory")
-    @Pattern(regexp = "^[A-Z][0-9]$")
+    @Pattern(regexp = "^[א-ח][1-9]|1[0-9]|20$", message = "כיתה חייבת להיות אות (א-ח) ומספר (1-20)")
     private String classroom;
 
     @NotBlank(message = "password is mandatory")
