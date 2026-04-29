@@ -60,8 +60,8 @@ public class StudentController {
     }
 
     /* get list of students in a specific class */
-    @GetMapping("/class/{className}")
-    public List<Student> getStudentsByClass(@PathVariable String className) {
-        return studentService.getStudentsByClass(className);
+    @GetMapping("/by-class") // ודאי שהנתיב תואם למה שכתבת ב-Axios
+    public List<Student> getStudentsByClass(@RequestParam String classroom) {
+        return studentService.getStudentsByClass(classroom);
     }
 }

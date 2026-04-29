@@ -9,4 +9,5 @@ import java.util.List;
 public interface LocationRepository extends JpaRepository<StudentLocation, Long> {
 
     List<StudentLocation> findByStudentIdOrderByTimestampDesc(String studentId);
+    StudentLocation findFirstByStudentIdOrderByTimestampDesc(String studentId);
 }
