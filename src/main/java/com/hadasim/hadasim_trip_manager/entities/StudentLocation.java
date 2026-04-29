@@ -9,9 +9,7 @@ public class StudentLocation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
-
     private String studentId;
     private String latitude;
     private String longitude;

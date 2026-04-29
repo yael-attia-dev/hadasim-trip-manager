@@ -7,12 +7,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/locations")
+@RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:5173") // תוודאי שזה הפורט שבו הריאקט רץ אצלך
 public class LocationController {
+
 
     private final LocationRepository locationRepository;
 
@@ -42,5 +44,38 @@ public class LocationController {
         locationRepository.save(location);
 
         return ResponseEntity.ok("Location updated successfully for: " + dto.getId());
+    }
+
+    @GetMapping("/latest") // או "/locations/latest" תלוי ב-RequestMapping שלך
+    public List<StudentLocation> getAllLatestLocations() {
+        return locationRepository.findAll(); // לבדיקה מהירה, נחזיר את הכל
+    }
+
+    @PostMapping("/locations")
+    public ResponseEntity<String> receiveLocation(@RequestBody StudentLocationJson locationJson) {
+        // 1. המרה של ה-JSON המורכב לנתונים פשוטים
+        String studentId = locationJson.getId();
+
+        // חישוב קו רוחב עשרוני
+        double lat = Double.parseDouble(locationJson.getCoordinates().getLatitude().getDegrees()) +
+                Double.parseDouble(locationJson.getCoordinates().getLatitude().getMinutes()) / 60.0 +
+                Double.parseDouble(locationJson.getCoordinates().getLatitude().getSeconds()) / 3600.0;
+
+        // חישוב קו אורך עשרוני
+        double lng = Double.parseDouble(locationJson.getCoordinates().getLongitude().getDegrees()) +
+                Double.parseDouble(locationJson.getCoordinates().getLongitude().getMinutes()) / 60.0 +
+                Double.parseDouble(locationJson.getCoordinates().getLongitude().getSeconds()) / 3600.0;
+
+        // 2. יצירת אובייקט Entity ושמירה ב-DB
+        StudentLocation entity = new StudentLocation(
+                studentId,
+                String.valueOf(lat),
+                String.valueOf(lng),
+                LocalDateTime.now()
+        );
+
+        locationRepository.save(entity);
+
+        return ResponseEntity.ok("Location received and saved");
     }
 }
