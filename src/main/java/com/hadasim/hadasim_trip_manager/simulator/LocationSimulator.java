@@ -38,10 +38,14 @@ public class LocationSimulator {
 
         for (Student student : allStudents) {
 
-            DMSLocation lat = new DMSLocation("31", "46", String.valueOf(10 + (int)(Math.random() * 40)) );
-            DMSLocation lng = new DMSLocation("35", "13", String.valueOf(10 + (int)(Math.random() * 40)) );
+            String randomMinutesLat = String.valueOf(40 + (int)(Math.random() * 20));
+            String randomSecondsLat = String.valueOf((int)(Math.random() * 60));
+            DMSLocation lat = new DMSLocation("31", randomMinutesLat, randomSecondsLat);
 
 
+            String randomMinutesLng = String.valueOf(10 + (int)(Math.random() * 20));
+            String randomSecondsLng = String.valueOf((int)(Math.random() * 60));
+            DMSLocation lng = new DMSLocation("35", randomMinutesLng, randomSecondsLng);
 
             Coordinates coords = new Coordinates(lng, lat);
 

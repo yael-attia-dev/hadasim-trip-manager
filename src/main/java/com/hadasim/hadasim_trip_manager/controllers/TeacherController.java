@@ -44,7 +44,7 @@ public class TeacherController {
      * Add a new teacher
      */
     @PostMapping
-    public Teacher addTeacher( @Valid @RequestBody Teacher teacher) {
+    public Teacher addTeacher( @RequestBody Teacher teacher) {
         return teacherService.addTeacher(teacher);
     }
 
@@ -76,7 +76,7 @@ public class TeacherController {
             // מחזירים את כל האובייקט של המורה (כולל השם!)
             return ResponseEntity.ok(teacher);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid id or password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("תעודת זהות או סיסמא שגויים ");
         }
     }
 }
