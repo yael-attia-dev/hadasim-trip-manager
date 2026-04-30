@@ -38,12 +38,13 @@ public class LocationSimulator {
 
         for (Student student : allStudents) {
 
-            String randomMinutesLat = String.valueOf(40 + (int)(Math.random() * 20));
+            // עבור קווי רוחב (lat): ננוע בין דקה 45 ל-48 (טווח של כ-5 ק"מ סה"כ)
+            String randomMinutesLat = String.valueOf(45 + (int)(Math.random() * 4));
             String randomSecondsLat = String.valueOf((int)(Math.random() * 60));
             DMSLocation lat = new DMSLocation("31", randomMinutesLat, randomSecondsLat);
 
-
-            String randomMinutesLng = String.valueOf(10 + (int)(Math.random() * 20));
+            // עבור קווי אורך (lng): ננוע בין דקה 12 ל-15
+            String randomMinutesLng = String.valueOf(12 + (int)(Math.random() * 4));
             String randomSecondsLng = String.valueOf((int)(Math.random() * 60));
             DMSLocation lng = new DMSLocation("35", randomMinutesLng, randomSecondsLng);
 
