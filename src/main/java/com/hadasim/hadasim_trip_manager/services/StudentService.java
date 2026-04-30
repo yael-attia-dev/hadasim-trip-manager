@@ -2,6 +2,7 @@ package com.hadasim.hadasim_trip_manager.services;
 
 import com.hadasim.hadasim_trip_manager.entities.Student;
 import com.hadasim.hadasim_trip_manager.repositories.StudentRepository;
+import com.hadasim.hadasim_trip_manager.repositories.TeacherRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +13,11 @@ public class StudentService
 {
 
     private final StudentRepository studentRepository;
+    private  final TeacherRepository teacherRepository;
 
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, TeacherRepository teacherRepository) {
         this.studentRepository = studentRepository;
+        this.teacherRepository = teacherRepository;
 
     }
     /**
@@ -22,11 +25,22 @@ public class StudentService
      * it checks if the student ID already exists to avoid overwriting data.
      */
     public Student addStudent(Student newStudent) {
-        // Check if student ID is already in the Database
-        if (studentRepository.existsById(newStudent.getId())) {
-            throw new RuntimeException("You are updating student with id " + newStudent.getId()+"!");
+        // 1. בדיקת אורך תעודת זהות (בדיוק 9 ספרות)
+        String idStr = String.valueOf(newStudent.getId());
+        if (idStr.length() != 9) {
+            throw new RuntimeException("שגיאה: תעודת זהות חייבת להכיל בדיוק 9 ספרות");
         }
-        // Save the new student
+
+        // 2. בדיקה אם הת"ז כבר קיימת בטבלת התלמידות
+        if (studentRepository.existsById(newStudent.getId())) {
+            throw new RuntimeException("שגיאה: תלמידה עם תעודת זהות זו כבר רשומה במערכת");
+        }
+
+        // 3. בדיקה אם הת"ז רשומה כבר כמורה (מניעת כפילות תפקידים)
+        if (teacherRepository.existsById(newStudent.getId())) {
+            throw new RuntimeException("שגיאה: תעודת זהות זו כבר רשומה כמורה במערכת");
+        }
+
         return studentRepository.save(newStudent);
     }
 

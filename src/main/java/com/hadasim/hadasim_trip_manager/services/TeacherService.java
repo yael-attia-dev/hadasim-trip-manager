@@ -25,11 +25,28 @@ public class TeacherService {
      * it checks if the teacher ID already exists to avoid overwriting data
      */
     public Teacher addTeacher(Teacher newTeacher) {
-        // Check if teacher ID is already in the Database
-        if (teacherRepository.existsById(newTeacher.getId())) {
-            throw new RuntimeException("You are updating teacher with id " + newTeacher.getId()+"!");
+        // 1. בדיקה אם תעודת הזהות קיימת כבר בטבלת המורות
+
+        String idStr = String.valueOf(newTeacher.getId());
+        if (idStr.length() != 9) {
+            throw new RuntimeException("שגיאה: תעודת זהות חייבת להכיל בדיוק 9 ספרות");
         }
-        // Save the new teacher
+
+        if (teacherRepository.existsById(newTeacher.getId())) {
+            throw new RuntimeException("שגיאה: משתמש עם תעודת זהות זו כבר קיים במערכת (מורה)");
+        }
+
+        // 2. בדיקה אם תעודת הזהות קיימת בטבלת התלמידות
+        if (studentRepository.existsById(newTeacher.getId())) {
+            throw new RuntimeException("שגיאה: תעודת זהות זו כבר רשומה כתלמידה");
+        }
+
+        // 3. בדיקה שאין עוד מורה באותה כיתה (לפי הבקשה הקודמת שלך)
+        if (teacherRepository.existsByClassroom(newTeacher.getClassroom())) {
+            throw new RuntimeException("שגיאה: כבר קיימת מורה שהוגדרה לכיתה " + newTeacher.getClassroom());
+        }
+
+        // אם הכל תקין - שומרים
         return teacherRepository.save(newTeacher);
     }
 

@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface TeacherRepository extends JpaRepository<Teacher, String> {
 
 
+    boolean existsByClassroom(String classroom);
 }
