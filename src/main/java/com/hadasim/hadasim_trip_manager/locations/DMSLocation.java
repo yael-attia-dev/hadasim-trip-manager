@@ -11,8 +11,8 @@ public class DMSLocation {
     @JsonProperty("Seconds")
     private String seconds;
 
-    // Default Constructor
-    public DMSLocation() {}
+    public DMSLocation() {
+    }
 
     public DMSLocation(String degrees, String minutes, String seconds) {
         this.degrees = degrees;
@@ -20,11 +20,27 @@ public class DMSLocation {
         this.seconds = seconds;
     }
 
-    // Getters and Setters
-    public String getDegrees() { return degrees; }
-    public void setDegrees(String degrees) { this.degrees = degrees; }
-    public String getMinutes() { return minutes; }
-    public void setMinutes(String minutes) { this.minutes = minutes; }
-    public String getSeconds() { return seconds; }
-    public void setSeconds(String seconds) { this.seconds = seconds; }
+    public String getDegrees() {
+        return degrees;
+    }
+
+    public void setDegrees(String degrees) {
+        this.degrees = degrees;
+    }
+
+    public String getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(String minutes) {
+        this.minutes = minutes;
+    }
+
+    public String getSeconds() {
+        return seconds;
+    }
+
+    public void setSeconds(String seconds) {
+        this.seconds = seconds;
+    }
 }

@@ -11,7 +11,8 @@ public class StudentLocationJson {
     @JsonProperty("Time")
     private String time;
 
-    public StudentLocationJson() {}
+    public StudentLocationJson() {
+    }
 
     public StudentLocationJson(String id, Coordinates coordinates, String time) {
         this.id = id;
@@ -19,10 +20,27 @@ public class StudentLocationJson {
         this.time = time;
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
-    public Coordinates getCoordinates() { return coordinates; }
-    public void setCoordinates(Coordinates coordinates) { this.coordinates = coordinates; }
-    public String getTime() { return time; }
-    public void setTime(String time) { this.time = time; }
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 }

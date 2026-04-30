@@ -18,15 +18,13 @@ public class LocationSimulator {
     private final RestTemplate restTemplate = new RestTemplate();
     private final StudentRepository studentRepository;
 
-    // הזרקת ה-Repository של התלמידות כדי שנדע למי לשלוח מיקומים
     public LocationSimulator(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
 
-    // ירוץ כל 60000 מילי-שניות (דקה אחת)
     @Scheduled(fixedRate = 60000)
     public void sendLocationsForAllStudents() {
-        // 1. שליפת כל התלמידות הרשומות במערכת
+
         List<Student> allStudents = studentRepository.findAll();
 
         if (allStudents.isEmpty()) {
@@ -38,26 +36,22 @@ public class LocationSimulator {
 
         for (Student student : allStudents) {
 
-            // עבור קווי רוחב (lat): ננוע בין דקה 45 ל-48 (טווח של כ-5 ק"מ סה"כ)
-            String randomMinutesLat = String.valueOf(45 + (int)(Math.random() * 4));
-            String randomSecondsLat = String.valueOf((int)(Math.random() * 60));
+            String randomMinutesLat = String.valueOf(45 + (int) (Math.random() * 4));
+            String randomSecondsLat = String.valueOf((int) (Math.random() * 60));
             DMSLocation lat = new DMSLocation("31", randomMinutesLat, randomSecondsLat);
 
-            // עבור קווי אורך (lng): ננוע בין דקה 12 ל-15
-            String randomMinutesLng = String.valueOf(12 + (int)(Math.random() * 4));
-            String randomSecondsLng = String.valueOf((int)(Math.random() * 60));
+            String randomMinutesLng = String.valueOf(12 + (int) (Math.random() * 4));
+            String randomSecondsLng = String.valueOf((int) (Math.random() * 60));
             DMSLocation lng = new DMSLocation("35", randomMinutesLng, randomSecondsLng);
 
             Coordinates coords = new Coordinates(lng, lat);
 
-            // 3. בניית ה-JSON לפי המבנה שדרשנו ב-Controller
             StudentLocationJson locationJson = new StudentLocationJson(
-                    student.getId(), // משתמש ב-ID האמיתי מה-DB
+                    student.getId(),
                     coords,
                     LocalDateTime.now().toString()
             );
 
-            // 4. שליחה ב-POST ל-Endpoint שיצרנו ב-LocationController
             try {
                 restTemplate.postForEntity("http://localhost:8080/api/locations", locationJson, String.class);
                 System.out.println("Sent location for: " + student.getFirstName() + " " + student.getLastName());

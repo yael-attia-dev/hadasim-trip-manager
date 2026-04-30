@@ -5,11 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@EnableScheduling // <-- תוסיפי את השורה הזו
+@EnableScheduling
 public class HadasimTripManagerApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(HadasimTripManagerApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(HadasimTripManagerApplication.class, args);
+    }
 
 }

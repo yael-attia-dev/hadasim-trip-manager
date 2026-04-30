@@ -10,31 +10,17 @@ import jakarta.validation.constraints.Size;
 public class Teacher {
 
     @Id
-    @NotBlank(message = "id is mandatory")
+
     private String id;
-
-    @NotBlank(message = "first name is mandatory")
-    @Size(min = 2, message = "name is too short")
     private String firstName;
-
-    @NotBlank(message = "last name is mandatory")
     private String lastName;
-
-    @NotBlank(message = "Classroom is mandatory")
-    @Pattern(regexp = "^[א-ח][1-9]|1[0-9]|20$", message = "כיתה חייבת להיות אות (א-ח) ומספר (1-20)")
     private String classroom;
-
-    @NotBlank(message = "password is mandatory")
-    @Size(min = 4, message = "password must be at least 4 characters")
-    /* teacher password for login */
     private String password;
-
 
 
     public Teacher() {
     }
 
-    /* constructor to create teacher with data */
     public Teacher(String id, String firstName, String lastName, String classroom, String password) {
         this.id = id;
         this.firstName = firstName;

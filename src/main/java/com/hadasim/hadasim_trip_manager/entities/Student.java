@@ -10,22 +10,9 @@ import jakarta.validation.constraints.Size;
 public class Student {
 
     @Id
-    @NotBlank(message = "id is mandatory")
-    /* student unique id number */
     private String id;
-
-
-    @NotBlank(message = "first name is mandatory")
-    @Size (min = 2, message = "name is too short")
-    /* student first name */
     private String firstName;
-
-    @NotBlank(message = "last name is mandatory")
-    /* student last name */
     private String lastName;
-
-    @NotBlank(message = "Classroom is mandatory")
-    @Pattern(regexp = "^[א-ח][1-9]|1[0-9]|20$", message = "כיתה חייבת להיות אות (א-ח) ומספר (1-20)")
     private String classroom;
 
     public Student(String id, String firstName, String lastName, String classroom) {

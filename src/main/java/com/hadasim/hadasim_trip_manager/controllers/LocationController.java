@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:5173") // תוודאי שזה הפורט שבו הריאקט רץ אצלך
+@CrossOrigin(origins = "http://localhost:5173")
 public class LocationController {
 
 
@@ -24,12 +24,11 @@ public class LocationController {
 
     public LocationController(LocationRepository locationRepository, StudentRepository studentRepository) {
         this.locationRepository = locationRepository;
-        this.studentRepository = studentRepository; // <-- 3. להוסיף את ההשמה הזו
+        this.studentRepository = studentRepository;
     }
 
     @PostMapping("/update")
     public ResponseEntity<String> updateLocation(@RequestBody StudentLocationJson dto) {
-
 
         String lat = dto.getCoordinates().getLatitude().getDegrees() + "°" +
                 dto.getCoordinates().getLatitude().getMinutes() + "'" +
@@ -45,7 +44,6 @@ public class LocationController {
                 lon,
                 LocalDateTime.now()
         );
-
         locationRepository.save(location);
 
         return ResponseEntity.ok("Location updated successfully for: " + dto.getId());
@@ -57,7 +55,6 @@ public class LocationController {
         List<StudentLocation> latestLocations = new ArrayList<>();
 
         for (Student s : students) {
-            // אנחנו מבקשים את המיקום הכי חדש לכל סטודנט ספציפי
             StudentLocation lastLoc = locationRepository.findFirstByStudentIdOrderByTimestampDesc(s.getId());
             if (lastLoc != null) {
                 latestLocations.add(lastLoc);
@@ -68,7 +65,6 @@ public class LocationController {
 
     @PostMapping("/locations")
     public ResponseEntity<String> receiveLocation(@RequestBody StudentLocationJson locationJson) {
-        // 1. המרה של ה-JSON המורכב לנתונים פשוטים
         String studentId = locationJson.getId();
 
         // חישוב קו רוחב עשרוני
@@ -81,7 +77,6 @@ public class LocationController {
                 Double.parseDouble(locationJson.getCoordinates().getLongitude().getMinutes()) / 60.0 +
                 Double.parseDouble(locationJson.getCoordinates().getLongitude().getSeconds()) / 3600.0;
 
-        // 2. יצירת אובייקט Entity ושמירה ב-DB
         StudentLocation entity = new StudentLocation(
                 studentId,
                 String.valueOf(lat),

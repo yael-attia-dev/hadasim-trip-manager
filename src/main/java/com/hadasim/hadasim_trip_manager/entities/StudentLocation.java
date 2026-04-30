@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-/* this class represents the table in SQL Server */
 public class StudentLocation {
 
     @Id
@@ -15,10 +14,8 @@ public class StudentLocation {
     private String longitude;
     private LocalDateTime timestamp;
 
-    // קונסטרקטור ריק חובה ל-JPA
     public StudentLocation() {}
 
-    // קונסטרקטור נוח לעבודה
     public StudentLocation(String studentId, String latitude, String longitude, LocalDateTime timestamp) {
         this.studentId = studentId;
         this.latitude = latitude;

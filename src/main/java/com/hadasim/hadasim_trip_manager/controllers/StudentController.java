@@ -9,58 +9,41 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/students")
-@CrossOrigin(origins = "http://localhost:5173") // תוודאי שזה הפורט שבו הריאקט רץ אצלך
+@CrossOrigin(origins = "http://localhost:5173")
 public class StudentController {
 
     private  final StudentService studentService;
 
-    // Constructor Injection - This makes the yellow warning disappear
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
     }
 
-    /**
-     * Get all students from the database
-     */
     @GetMapping
     public List<Student> getAllStudents() {
         return studentService.getAllStudents();
     }
 
-    /**
-     * Get a specific student by their ID
-     */
     @GetMapping("/{id}")
     public Student getStudentById(@PathVariable String id) {
         return studentService.getStudentById(id);
     }
 
-    /**
-     * Add a new student. @RequestBody converts JSON to Student object
-     */
     @PostMapping
-    public Student addStudent( @Valid @RequestBody Student student) {
+    public Student addStudent(  @RequestBody Student student) {
         return studentService.addStudent(student);
     }
 
-    /**
-     * Update an existing student
-     */
     @PutMapping
-    public Student updateStudent( @Valid @RequestBody Student student) {
+    public Student updateStudent( @RequestBody Student student) {
         return studentService.updateStudent(student);
     }
 
-    /**
-     * Delete a student by their ID
-     */
     @DeleteMapping("/{id}")
     public void deleteStudent(@PathVariable String id) {
         studentService.deleteStudent(id);
     }
 
-    /* get list of students in a specific class */
-    @GetMapping("/by-class") // ודאי שהנתיב תואם למה שכתבת ב-Axios
+    @GetMapping("/by-class")
     public List<Student> getStudentsByClass(@RequestParam String classroom) {
         return studentService.getStudentsByClass(classroom);
     }

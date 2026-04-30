@@ -9,47 +9,58 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class StudentService
-{
+public class StudentService {
 
     private final StudentRepository studentRepository;
-    private  final TeacherRepository teacherRepository;
+    private final TeacherRepository teacherRepository;
 
     public StudentService(StudentRepository studentRepository, TeacherRepository teacherRepository) {
         this.studentRepository = studentRepository;
         this.teacherRepository = teacherRepository;
 
     }
-    /**
-     * this method adds a new student.
-     * it checks if the student ID already exists to avoid overwriting data.
-     */
+
     public Student addStudent(Student newStudent) {
-        // 1. בדיקת אורך תעודת זהות (בדיוק 9 ספרות)
+
+        //  בדיקת תעודת זהות (אורך ותקינות מספרים בלבד)
         String idStr = String.valueOf(newStudent.getId());
-        if (idStr.length() != 9) {
+        if (idStr == null || idStr.length() != 9 || !idStr.matches("\\d+")) {
             throw new RuntimeException("שגיאה: תעודת זהות חייבת להכיל בדיוק 9 ספרות");
         }
 
-        // 2. בדיקה אם הת"ז כבר קיימת בטבלת התלמידות
+        // בדיקת שם (לוודא שלא ריק וארוך מספיק)
+        if (newStudent.getFirstName() == null || newStudent.getFirstName().trim().length() < 2) {
+            throw new RuntimeException("שגיאה: שם פרטי חייב להכיל לפחות 2 תווים");
+        }
+        if (newStudent.getLastName() == null || newStudent.getLastName().trim().length() < 2) {
+            throw new RuntimeException("שגיאה: שם משפחה חייב להכיל לפחות 2 תווים");
+        }
+
+        // בדיקת פורמט כיתה (אות א-ת וספרה 1-9, בדיוק כמו אצל המורה)
+        if (newStudent.getClassroom() == null || !newStudent.getClassroom().trim().matches("^[א-ח][1-9]$")) {
+            throw new RuntimeException("שגיאה: פורמט כיתה לא תקין. יש להזין אות וספרה (לדוגמה: א1, ב2)");
+        }
+
+        // בדיקה אם התלמידה כבר קיימת במערכת
         if (studentRepository.existsById(newStudent.getId())) {
             throw new RuntimeException("שגיאה: תלמידה עם תעודת זהות זו כבר רשומה במערכת");
         }
 
-        // 3. בדיקה אם הת"ז רשומה כבר כמורה (מניעת כפילות תפקידים)
+        // מניעת כפילות תפקידים (בדיקה אם הת"ז רשומה כמורה
         if (teacherRepository.existsById(newStudent.getId())) {
             throw new RuntimeException("שגיאה: תעודת זהות זו כבר רשומה כמורה במערכת");
         }
 
+        // ניקוי רווחים מיותרים לפני השמירה (סטנדרטיזציה של הדאטה)
+        newStudent.setFirstName(newStudent.getFirstName().trim());
+        newStudent.setLastName(newStudent.getLastName().trim());
+        newStudent.setClassroom(newStudent.getClassroom().trim());
+
         return studentRepository.save(newStudent);
     }
 
-    /**
-     * this method updates an existing student.
-     * it only works if the student ID is already in the database.
-     */
     public Student updateStudent(Student student) {
-        // check if student exists before updating
+
         if (studentRepository.existsById(student.getId())) {
             return studentRepository.save(student);
         } else {
@@ -57,38 +68,26 @@ public class StudentService
         }
     }
 
-    /**
-     * this method returns a list of all students from the database.
-     */
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
 
 
-    /**
-     * this method deletes a student by their ID.
-     * it checks if the student exists before trying to delete.
-     */
     public void deleteStudent(String id) {
-        //check if the student exists
+
         if (studentRepository.existsById(id)) {
-            //delete the student
             studentRepository.deleteById(id);
         } else {
-            //throw an error if not found
             throw new EntityNotFoundException("Cannot delete. Student with ID " + id + " not found.");
         }
     }
 
-    /**
-     * this method returns a specific student by id.
-     */
     public Student getStudentById(String id) {
-        // we search for the student. findById returns an "Optional" container.
+
         return studentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Student with ID " + id + " not found."));
     }
 
-    /* get students by class name */
+
     public List<Student> getStudentsByClass(String classroom) {
         return studentRepository.findByClassroom(classroom);
     }
